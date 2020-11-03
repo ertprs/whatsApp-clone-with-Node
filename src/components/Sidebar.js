@@ -7,12 +7,15 @@ import React, { useState, useEffect } from "react";
 import "./Sidebar.scss";
 import SidebarChat from "./SidebarChat";
 import db from "../firebase";
+import {useStateValue} from '../contextAPI/StateProvider'
+
 
 const Sidebar = () => {
   const [rooms, setRooms] = useState([]);
+  const [{user}] = useStateValue()
 
   useEffect(() => {
-    db.collection("whatsappRoom").onSnapshot((snapshot) => {
+   const unsubscribe = db.collection("whatsappRoom").onSnapshot((snapshot) => {
       setRooms(
         snapshot.docs.map((doc) => ({
           ...doc.data(),
@@ -20,12 +23,15 @@ const Sidebar = () => {
         }))
       );
     });
+    return () => {
+      unsubscribe()
+    }
   }, []);
 
   return (
     <div className="sidebar">
       <div className="sidebar__header">
-        <Avatar />
+        <Avatar src={user?.photoURL}/>
         <div className="sidebar__headerRight">
           <IconButton>
             <DonutLargeIcon />
@@ -47,7 +53,7 @@ const Sidebar = () => {
       <div className="sidebar__chats">
         <SidebarChat addNewChat />
         {rooms?.map(({ id, name }) => (
-          <SidebarChat key={id} name={name} />
+          <SidebarChat key={id} name={name} roomId={id}/>
         ))}
       </div>
     </div>
