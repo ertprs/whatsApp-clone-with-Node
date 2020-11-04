@@ -2,6 +2,7 @@
   flex: 0.65;
   display: flex;
   flex-direction: column;
+
   &__header {
     padding: 20px;
     display: flex;
@@ -46,17 +47,31 @@
     padding: 10px;
     border-radius: 10px;
     width: fit-content;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
+    word-wrap: break-word;
+    white-space:pre-wrap;
   }
 
   &__name {
     top: -15px;
+    right: 10px;
     position: absolute;
     font-size: xx-small;
     font-weight: 800;
   }
 
-  &__reciever {
+  &__name--receiver {
+    left: 10px;
+  }
+
+
+  &__timestamp {
+    color: gray;
+    font-size: xx-small;
+    padding-left: 10px;
+  }
+
+  &__receiver {
     margin-left: auto;
     background-color: #dcf8c6;
   }

@@ -1,4 +1,3 @@
-import React from "react";
 import "./App.scss";
 import Chat from "./components/Chat";
 import Sidebar from "./components/Sidebar";

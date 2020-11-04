@@ -16,6 +16,15 @@
 
   &__info  {
     margin-left: 15px;
-  }
 
+    & > p {
+      font-size: xx-small;
+      color: gray;
+    }
+  }
+  
 }
+    a {
+      text-decoration: none !important;
+      color: black;
+    }

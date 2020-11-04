@@ -37,6 +37,7 @@ const Chat = () => {
       db.collection("whatsappRoom")
         .doc(roomId)
         .collection("messages")
+        .orderBy('timestamp','desc')
         .onSnapshot((snapshot) =>
           setChatMessages(
             snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -59,14 +60,14 @@ const Chat = () => {
       })
     setMessage("");
   };
-  console.log(chatMessages)
+
   return (
     <div className="chat">
       <div className="chat__header">
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <div className="chat__headerInfo">
           <h3>{roomName}</h3>
-          <p>last seen at ...</p>
+          <p>Last seen { chatMessages && new Date(chatMessages[chatMessages.length -1]?.timestamp?.toDate()).toUTCString()}</p>
         </div>
         <div className="chat__headerRight">
           <IconButton>
@@ -81,14 +82,14 @@ const Chat = () => {
         </div>
       </div>
       <div className="chat__body">
-      {chatMessages && chatMessages.map(({ content, id, name, timestamp }) => (
-        <>
-          <p className={`chat__message chat__reciever`} key={id}>
-            {content}
-            <span className="chat__name">{name}</span>
-            <span className="chat__timestamp">{timestamp}</span>
-          </p>
-        </>
+      {chatMessages?.map(({ content, id, uid, userName,timestamp }) => (
+        <div key={id}>
+          <div className={`chat__message ${uid!==user?.uid && 'chat__receiver'}`} >
+            <span>{content} </span>
+            <span className={`chat__name ${uid===user?.uid && 'chat__name--receiver'}`}>{userName}</span>
+            <span className="chat__timestamp">{new Date(timestamp?.toDate()).toUTCString()}</span>
+          </div>
+        </div>
       ))}
       </div>
       <div className="chat__footer">
